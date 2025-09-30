@@ -1,0 +1,149 @@
+/* ================================
+   HEADER BASE STYLE
+   ================================ */
+.member-header {
+    position: fixed;
+    top:0;
+    left: 0;
+    right: 0;
+    height: 75px;
+    background-color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+    border-bottom: 1px solid #ddd;
+    z-index: 1000;
+}
+
+/* LOGO SECTION */
+.logo-container img {
+    height: 60px;
+    width: auto;
+}
+
+/* RIGHT SECTION */
+.member-container {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+}
+
+.msg {
+    font-size: 16px;
+    color: #333;
+    white-space: nowrap; /* prevent breaking into 2 lines */
+}
+
+/* RESET LINK STYLES */
+a {
+    text-decoration: none;
+    color: #4d0a0b;
+    padding: 0;
+    margin: 0;
+    border: 0;
+}
+
+/* ================================
+   RESPONSIVE STYLES
+   ================================ */
+/* ================================
+   HEADER BASE STYLE
+   ================================ */
+.member-header {
+    position: fixed;
+    top:0;
+    left: 0;
+    right: 0;
+    height: 75px; /* always fixed */
+    background-color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+    border-bottom: 1px solid #ddd;
+    z-index: 1000;
+}
+
+/* LOGO SECTION */
+.logo-container img {
+    height: 60px;
+    width: auto;
+}
+
+/* RIGHT SECTION */
+.member-container {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+}
+
+.msg {
+    font-size: 16px;
+    color: #333;
+    white-space: nowrap; /* prevent breaking into 2 lines */
+}
+
+/* RESET LINK STYLES */
+a {
+    text-decoration: none;
+    color: #4d0a0b;
+    padding: 0;
+    margin: 0;
+    border: 0;
+}
+
+/* ================================
+   RESPONSIVE STYLES
+   ================================ */
+
+/* Tablet */
+@media (max-width: 1024px) {
+    .logo-container img {
+        height: 50px;
+    }
+
+    .msg {
+        font-size: 14px;
+    }
+    
+    .logout-link {
+        font-size: 12px;
+        padding: 4px 8px;
+    }
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+    .logo-container img {
+        height: 40px;
+    }
+
+    .msg {
+        font-size: 12px;
+    }
+
+    .member-container {
+        gap: 5px;
+    }
+}
+
+/* Extra Small Mobile */
+@media (max-width: 480px) {
+    .logo-container img {
+        height: 45px;
+    }
+
+    .msg {
+        font-size: 11px;
+    }
+
+    .member-container {
+        gap: 3px;
+    }
+    
+    .logout-link {
+        font-size: 11px;
+        padding: 3px 6px;
+    }
+}

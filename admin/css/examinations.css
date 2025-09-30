@@ -1,0 +1,302 @@
+/* =======================
+   DASHBOARD BASE LAYOUT
+   ======================= */
+.content-container {
+    margin: 75px 0 0 180px; /* below header, beside sidebar */
+    padding: 20px;
+    background: #f5f5f5;
+    min-height: calc(100vh - 75px);
+    width: calc(100% - 180px);
+    box-sizing: border-box;
+}
+
+.card-container {
+    background: #fff;
+    border-radius: 10px;
+    padding: 24px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+/* =======================
+   PROFILE HEADER & TABS
+   ======================= */
+.profile-header {
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 15px;
+}
+
+.profile-tabs {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    gap: 30px;
+    font-weight: 800;
+}
+
+.profile-tabs li {
+    padding: 8px 0;
+    cursor: pointer;
+    color: #555;
+    font-size: 20px;
+}
+
+.profile-tabs li.active {
+    color: #600; /* dark maroon */
+    border-bottom: 3px solid #600;
+}
+
+/* =======================
+   LOWER SECTION (Table and Form)
+   ======================= */
+.lower-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+/* =======================
+   SEARCH BAR STYLES
+   ======================= */
+.search-container {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: flex-start; /* Align to the left */
+    width: 100%; /* Make sure the container takes full width */
+}
+
+.search-container input {
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    width: 100%; /* Ensure search bar takes full width of the container */
+    outline: none;
+}
+
+.search-container input:focus {
+    border-color: #4d0a0b; /* Dark maroon focus border */
+}
+
+/* =======================
+   TABLE STYLES (Plain with Borders)
+   ======================= */
+.examinations-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 16px;
+    background-color: #fff;
+    border: 1px solid #ddd; /* Border around the entire table */
+    table-layout: auto; /* Let columns size based on content */
+    white-space: nowrap; /* Prevent text from wrapping */
+}
+
+.examinations-table th, .examinations-table td {
+    padding: 12px 16px;
+    text-align: left;
+    border: 1px solid #ddd; /* Borders between cells */
+}
+
+.examinations-table th {
+    font-weight: bold;
+    color: #600; /* Dark maroon for header */
+    background-color: #f9f9f9; /* Light background for header */
+}
+
+.examinations-table td {
+    color: #555;
+}
+
+/* =======================
+   FORM STYLES (Regular Form)
+   ======================= */
+.create-form-container form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px; /* Slightly larger gap for better spacing */
+    margin-top: 20px;
+}
+
+.create-form-container label {
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 6px;
+}
+
+.create-form-container input,
+.create-form-container select,
+.create-form-container button {
+    padding: 12px; /* Increased padding for better spacing */
+    font-size: 16px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    outline: none;
+    width: 100%; /* Make inputs and selects take full width */
+    box-sizing: border-box; /* Ensures padding is included in the total width */
+}
+
+/* Add left padding */
+.create-form-container input[type="text"],
+.create-form-container input[type="date"],
+.create-form-container input[type="email"],
+.create-form-container input[type="password"],
+.create-form-container select {
+    background-color: #f9f9f9;
+    padding-left: 20px; /* Add padding on the left */
+}
+
+.create-form-container input[type="text"]:focus,
+.create-form-container input[type="email"]:focus,
+.create-form-container input[type="password"]:focus,
+.create-form-container select:focus {
+    border-color: #600; /* Dark maroon focus border */
+}
+
+.create-form-container button {
+    background-color: #600;
+    color: white;
+    cursor: pointer;
+    border: none;
+    transition: background-color 0.3s ease;
+    width: 100%; /* Make the button take full width */
+}
+
+.create-form-container button:hover {
+    background-color: #800; /* Slightly darker maroon */
+}
+
+/* =======================
+   BULK UPLOAD BUTTON STYLES (Same length as Create Button)
+   ======================= */
+#bulkUploadButton {
+    margin-top: 20px;
+    background-color: #f4f4f4;
+    color: #600;
+    padding: 12px; /* Match padding to create button */
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    width: 100%; /* Make it the same length as the create button */
+}
+
+#bulkUploadButton:hover {
+    background-color: #f5f5f5;
+}
+
+/* =======================
+   BULK UPLOAD FORM STYLES (Keep existing style)
+   ======================= */
+#bulkUploadForm {
+    margin-top: 20px;
+    padding: 15px;
+    background-color: #fafafa;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+#bulkUploadForm h3 {
+    margin-bottom: 10px;
+    color: #333;
+}
+
+#bulkUploadForm input[type="file"] {
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    font-size: 16px;
+    width: 100%;
+}
+
+#bulkUploadForm button {
+    margin-top: 10px;
+    background-color: #600;
+    color: white;
+    border: none;
+    padding: 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    width: 100%; /* Make button the same length as the others */
+}
+
+#bulkUploadForm button:hover {
+    background-color: #800;
+}
+
+.table-responsive {
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+/* =======================
+   RESPONSIVE BEHAVIOR
+   ======================= */
+
+/* Tablet: sidebar turns top navbar */
+@media (max-width: 1024px) {
+    .content-container {
+        margin: 75px 0 75px 0; /* account for header + top navbar */
+        width: 100%;
+        padding: 16px;
+    }
+    .create-form-container input,
+    .create-form-container select,
+    .create-form-container button {
+        font-size: 14px; /* Adjust font size */
+        padding: 10px; /* Adjust padding */
+        margin-top: 5px;
+    }
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+    .content-container {
+        margin: 75px 0 75px 0; /* smaller top space */
+    }
+
+    .lower-container {
+        flex-direction: column;
+    }
+    .create-form-container input,
+    .create-form-container select,
+    .create-form-container button {
+        font-size: 14px; /* Adjust font size */
+        padding: 10px; /* Adjust padding */
+    }
+
+    .create-form-container form {
+        gap: 10px; /* Reduce gap further for smaller screens */
+    }
+}
+
+/* Extra Small Mobile */
+@media (max-width: 480px) {
+    .content-container {
+        margin: 75px 0 75px 0;
+    }
+
+    .profile-tabs {
+        font-size: 16px;
+        gap: 10px;
+    }
+
+    .profile-tabs li {
+        font-size: 16px;
+    }
+    .create-form-container input,
+    .create-form-container select,
+    .create-form-container button {
+        font-size: 14px; /* Adjust font size */
+        padding: 8px; /* Adjust padding */
+    }
+
+    .create-form-container form {
+        gap: 8px; /* Reduce gap even more for extra small screens */
+    }
+}

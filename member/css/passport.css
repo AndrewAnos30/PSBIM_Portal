@@ -1,0 +1,137 @@
+/* ================================
+   PASSPORT MODAL BASE STYLE
+   ================================ */
+
+/* Modal background */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 2000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+/* Top-right actions */
+.modal-actions {
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    display: flex;
+    gap: 15px;
+    z-index: 2100;
+}
+
+.action-icon {
+    color: #fff;
+    font-size: 28px;
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+
+.action-icon:hover {
+    color: #ddd;
+}
+
+/* ================================
+   PASSPORT PREVIEW
+   ================================ */
+.passport-preview {
+    position: relative;
+    width: 600px;
+    height: 424px; /* fixed height */
+    transform: scale(1);
+    transform-origin: center center; /* scale from center */
+}
+
+.passport-bg {
+    width: 100%;
+    height: 100%;
+    display: block;
+    border-radius: 10px;
+}
+
+/* ================================
+   TEXT OVERLAY
+   ================================ */
+.passport-text {
+    position: absolute;
+    color: #000;
+    font-weight: 600;
+    text-align: left;
+    white-space: nowrap; /* prevent wrapping */
+}
+
+/* Field placements (absolute px) */
+.mid {
+    top: 92px;
+    left: 75px;
+    font-size: 25px;
+}
+
+.firstname {
+    top: 140px;
+    left: 120px;
+    font-size: 25px;
+}
+
+.lastname {
+    top: 185px;
+    left: 120px;
+    font-size: 25px;
+}
+
+.middleinitial {
+    top: 231.5px;
+    left: 140px;
+    font-size: 25px;
+}
+
+.extension {
+    top: 231.5px;
+    left: 430px;
+    font-size: 25px;
+}
+
+.room {
+    top: 276px;
+    left: 140px;
+    font-size: 25px;
+}
+
+.seat {
+    top: 323px;
+    left: 140px;
+    font-size: 25px;
+}
+
+/* ================================
+   RESPONSIVE SCALING
+   ================================ */
+
+/* Tablet */
+@media (max-width: 1024px) {
+    .passport-preview {
+        transform: scale(0.85);
+    }
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+    .passport-preview {
+        transform: scale(0.65);
+    }
+}
+
+/* Extra Small Mobile */
+@media (max-width: 480px) {
+    .passport-preview {
+        transform: scale(0.5);
+    }
+}
