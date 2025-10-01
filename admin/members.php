@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="css/members.css">
 </head>
 <body>
+    <?php include('php/get_latest_examination_id.php'); ?>
     <?php include 'header.php'; ?>
     <?php include 'navbar.php'; ?>
     <div class="content-container">
@@ -65,7 +66,7 @@
                     <input type="text" id="mobile" name="mobile" required>
 
                     <label for="examination_id">Examination ID:</label>
-                    <input type="text" id="examination_id" name="examination_id" required>
+                    <input type="text" id="examination_id" name="examination_id" value="<?php echo htmlspecialchars($latestExaminationID); ?>" required>
 
                     <!-- Additional Fields for Room and Seat Number -->
                     <label for="room_number">Room Number:</label>

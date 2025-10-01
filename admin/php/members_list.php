@@ -26,7 +26,12 @@ $members = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <?php if ($members): ?>
                 <?php foreach ($members as $member): ?>
                     <tr>
-                        <td><?php echo htmlspecialchars($member['username']); ?></td>
+                        <td>
+                            <!-- Make the username clickable and link to the edit form -->
+                            <a href="edit_member.php?username=<?php echo urlencode($member['username']); ?>">
+                                <?php echo htmlspecialchars($member['username']); ?>
+                            </a>
+                        </td>
                         <td><?php echo htmlspecialchars($member['full_name']); ?></td>
                         <td><?php echo htmlspecialchars($member['room_number']); ?></td>
                         <td><?php echo htmlspecialchars($member['seat_number']); ?></td>

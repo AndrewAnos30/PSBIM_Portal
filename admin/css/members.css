@@ -57,6 +57,7 @@
     flex-wrap: wrap;
     gap: 20px;
 }
+
 /* =======================
    SEARCH BAR STYLES
    ======================= */
@@ -75,10 +76,6 @@
     border: 1px solid #ddd;
     width: 100%; /* Ensure search bar takes full width of the container */
     outline: none;
-}
-
-.search-container input:focus {
-    border-color: #4d0a0b; /* Dark maroon focus border */
 }
 
 .search-container input:focus {
@@ -117,14 +114,16 @@
 /* =======================
    FORM STYLES (Regular Form)
    ======================= */
-.create-form-container form {
+.create-form-container form,
+.edit-form-container form {
     display: flex;
     flex-direction: column;
     gap: 15px; /* Slightly larger gap for better spacing */
     margin-top: 20px;
 }
 
-.create-form-container label {
+.create-form-container label,
+.edit-form-container label {
     font-weight: 600;
     color: #333;
     margin-bottom: 6px;
@@ -132,7 +131,10 @@
 
 .create-form-container input,
 .create-form-container select,
-.create-form-container button {
+.create-form-container button,
+.edit-form-container input,
+.edit-form-container select,
+.edit-form-container button {
     padding: 12px; /* Increased padding for better spacing */
     font-size: 16px;
     border-radius: 8px;
@@ -147,7 +149,12 @@
 .create-form-container input[type="date"],
 .create-form-container input[type="email"],
 .create-form-container input[type="password"],
-.create-form-container select {
+.create-form-container select,
+.edit-form-container input[type="text"],
+.edit-form-container input[type="date"],
+.edit-form-container input[type="email"],
+.edit-form-container input[type="password"],
+.edit-form-container select {
     background-color: #f9f9f9;
     padding-left: 20px; /* Add padding on the left */
 }
@@ -155,11 +162,16 @@
 .create-form-container input[type="text"]:focus,
 .create-form-container input[type="email"]:focus,
 .create-form-container input[type="password"]:focus,
-.create-form-container select:focus {
+.create-form-container select:focus,
+.edit-form-container input[type="text"]:focus,
+.edit-form-container input[type="email"]:focus,
+.edit-form-container input[type="password"]:focus,
+.edit-form-container select:focus {
     border-color: #600; /* Dark maroon focus border */
 }
 
-.create-form-container button {
+.create-form-container button,
+.edit-form-container button {
     background-color: #600;
     color: white;
     cursor: pointer;
@@ -168,7 +180,8 @@
     width: 100%; /* Make the button take full width */
 }
 
-.create-form-container button:hover {
+.create-form-container button:hover,
+.edit-form-container button:hover {
     background-color: #800; /* Slightly darker maroon */
 }
 
@@ -237,9 +250,9 @@
     -webkit-overflow-scrolling: touch;
 }
 
-/* =====================
+/* =======================
    RESPONSIVE BEHAVIOR
-   ===================== */
+   ======================= */
 
 /* Tablet: sidebar turns top navbar */
 @media (max-width: 1024px) {
@@ -250,14 +263,14 @@
     }
     .create-form-container input,
     .create-form-container select,
-    .create-form-container button {
+    .create-form-container button,
+    .edit-form-container input,
+    .edit-form-container select,
+    .edit-form-container button {
         font-size: 14px; /* Adjust font size */
         padding: 10px; /* Adjust padding */
         margin-top: 5px;
     }
-
-
-
 }
 
 /* Mobile */
@@ -271,12 +284,16 @@
     }
     .create-form-container input,
     .create-form-container select,
-    .create-form-container button {
+    .create-form-container button,
+    .edit-form-container input,
+    .edit-form-container select,
+    .edit-form-container button {
         font-size: 14px; /* Adjust font size */
         padding: 10px; /* Adjust padding */
     }
 
-    .create-form-container form {
+    .create-form-container form,
+    .edit-form-container form {
         gap: 10px; /* Reduce gap further for smaller screens */
     }
 }
@@ -285,7 +302,6 @@
 @media (max-width: 480px) {
     .content-container {
         margin: 75px 0 75px 0;
-
     }
 
     .profile-tabs {
@@ -298,12 +314,16 @@
     }
     .create-form-container input,
     .create-form-container select,
-    .create-form-container button {
+    .create-form-container button,
+    .edit-form-container input,
+    .edit-form-container select,
+    .edit-form-container button {
         font-size: 14px; /* Adjust font size */
         padding: 8px; /* Adjust padding */
     }
 
-    .create-form-container form {
+    .create-form-container form,
+    .edit-form-container form {
         gap: 8px; /* Reduce gap even more for extra small screens */
     }
 }
