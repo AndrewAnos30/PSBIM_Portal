@@ -30,6 +30,6 @@
     </div>
 </body>
 <footer>
-    &copy; 2025 Philippine Specialty Board in Internal Medicine
+    &copy; Philippine Specialty Board in Internal Medicine
 </footer>
 </html>

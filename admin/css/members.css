@@ -85,6 +85,7 @@
 /* =======================
    TABLE STYLES (Plain with Borders)
    ======================= */
+
 .members-table {
     width: 100%;
     border-collapse: collapse;
@@ -170,6 +171,7 @@
     border-color: #600; /* Dark maroon focus border */
 }
 
+.members-table button,
 .create-form-container button,
 .edit-form-container button {
     background-color: #600;
@@ -183,6 +185,18 @@
 .create-form-container button:hover,
 .edit-form-container button:hover {
     background-color: #800; /* Slightly darker maroon */
+}
+/* Style for the Send Email Icon */
+.btn-send-email i.fa-paper-plane {   /* Change to fa-paper-plane */
+    color: #4d0a0b;  /* Set the icon color */
+    font-size: 20px;  /* You can adjust the size here */
+    cursor: pointer;  /* Change cursor to pointer when hovering */
+    transition: color 0.3s ease;  /* Smooth color transition */
+}
+
+/* Hover effect for the Send Email Icon */
+.btn-send-email i.fa-paper-plane:hover {  /* Keep the same selector */
+    color: #8b1a1a;  /* Slightly lighter red on hover */
 }
 
 /* =======================

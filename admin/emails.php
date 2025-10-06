@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Member Dashboard</title>
+    <title>Email Dashboard</title>
     <link rel="stylesheet" href="css/members.css">
 </head>
 <body>
@@ -13,109 +13,55 @@
         <div class="card-container">
             <div class="profile-header">
                 <ul class="profile-tabs">
+                    <!-- Changed the order of the tabs -->
                     <li class="active">Emails</li>
-                    <li>Create</li>
+                    <li>Sent</li>
+                    <li>Create Email</li>
                 </ul>
             </div>
 
-            <!-- Members Tab Content: Table of Members -->
+            <!-- Emails Tab Content: Table of Emails -->
             <div class="lower-container">
                 <div class="search-container">
-                <input type="text" id="searchInput" placeholder="Search members..." onkeyup="filterTable()">
-            </div>
-                <div class="table-responsive">
-                    <table class="members-table">
-                        <thead>
-                            <tr>
-                                <th>Username</th>
-                                <th>Full Name</th>
-                                <th>Room Number</th>
-                                <th>Seat</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>JBC20251001</td>
-                                <td>John Benedict Cueto</td>
-                                <td>Room 101</td>
-                                <td>Seat 5</td>
-                            </tr>
-                            <!-- Add more rows dynamically as needed -->
-                        </tbody>
-                    </table>
+                    <input type="text" id="searchInput" placeholder="Search emails..." onkeyup="filterTable()">
                 </div>
+                <?php include 'php/email_list.php'; ?>
             </div>
 
-            <!-- Create Tab Content: Form -->
+            <!-- Sent Tab Content: Display Sent Emails -->
+            <div class="sent-container" style="display: none;">
+                <div class="search-container">
+                    <input type="text" id="searchInputSent" placeholder="Search sent emails..." onkeyup="filterSentTable()">
+                </div>
+                <?php include 'php/sent_list.php'; ?>
+            </div>
+
+            <!-- Create Email Tab Content: Form to Create New Email -->
             <div class="create-form-container" style="display: none;">
-                <form action="submit_form.php" method="POST" class="create-form">
-                    
-                    <label for="username">Username:</label>
-                    <input type="text" id="username" name="username" required>
+                <form action="php/create_email.php" method="POST" class="create-form">
+                    <!-- Email Subject -->
+                    <label for="subject">Email Subject:</label>
+                    <input type="text" id="subject" name="subject" required>
 
-                    <label for="password">Password:</label>
-                    <input type="password" id="password" name="password" required>
-
-                    <label for="firstname">First Name:</label>
-                    <input type="text" id="firstname" name="firstname" required>
-
-                    <label for="lastname">Last Name:</label>
-                    <input type="text" id="lastname" name="lastname" required>
-
-                    <label for="middlename">Middle Name:</label>
-                    <input type="text" id="middlename" name="middlename">
-
-                    <label for="extensionname">Extension Name:</label>
-                    <input type="text" id="extensionname" name="extensionname">
-
-                    <label for="gender">Gender:</label>
-                    <select id="gender" name="gender" required>
-                        <option value="Male">Male</option>
-                        <option value="Female">Female</option>
-                        <option value="Other">Other</option>
-                    </select>
-
-                    <label for="dob">Date of Birth:</label>
-                    <input type="date" id="dob" name="dob" required>
-
-                    <label for="email">Email:</label>
-                    <input type="email" id="email" name="email" required>
-
-                    <label for="mobile">Mobile:</label>
-                    <input type="text" id="mobile" name="mobile" required>
-
+                    <!-- Examination ID -->
                     <label for="examination_id">Examination ID:</label>
                     <input type="text" id="examination_id" name="examination_id" required>
 
-                    <!-- Additional Fields for Room and Seat Number -->
-                    <label for="room_number">Room Number:</label>
-                    <input type="text" id="room_number" name="room_number" required>
-
-                    <label for="seat_number">Seat Number:</label>
-                    <input type="text" id="seat_number" name="seat_number" required>
-
-                    <button type="submit">Create Member</button>
+                    <!-- Submit Button -->
+                    <button type="submit">Send Email</button>
                 </form>
-
-            <!-- Bulk Upload Button -->
-            <button id="bulkUploadButton" onclick="triggerFileUpload()">Bulk Upload examinee</button>
-
-            <!-- Bulk Upload Form (hidden initially) -->
-            <div id="bulkUploadForm" style="display: none;">
-                <h3>Upload CSV for Bulk Member Creation</h3>
-                <input type="file" id="bulkUploadFile" name="bulkUploadFile" accept=".csv" required style="display:none;">
-                <button type="submit" onclick="submitBulkUpload()">Upload CSV</button>
             </div>
-            </div>
+
         </div>
     </div>
 
     <!-- Add the script here -->
     <script>
-        // Function to toggle the content between Create and Members
+        // Function to toggle the content between Emails, Sent, and Create Email tabs
         const tabs = document.querySelectorAll('.profile-tabs li');
-        const createForm = document.querySelector('.create-form-container');
-        const membersTable = document.querySelector('.lower-container');
+        const emailTabContent = document.querySelector('.lower-container');
+        const sentTabContent = document.querySelector('.sent-container');
+        const createEmailForm = document.querySelector('.create-form-container');
 
         tabs.forEach(tab => {
             tab.addEventListener('click', () => {
@@ -126,35 +72,70 @@
                 tab.classList.add('active');
 
                 // Toggle content visibility based on the active tab
-                if (tab.textContent.trim() === 'Create') {
-                    createForm.style.display = 'block';
-                    membersTable.style.display = 'none';
-                } else {
-                    createForm.style.display = 'none';
-                    membersTable.style.display = 'block';
+                if (tab.textContent.trim() === 'Emails') {
+                    emailTabContent.style.display = 'block';
+                    sentTabContent.style.display = 'none';
+                    createEmailForm.style.display = 'none';
+                } else if (tab.textContent.trim() === 'Sent') {
+                    emailTabContent.style.display = 'none';
+                    sentTabContent.style.display = 'block';
+                    createEmailForm.style.display = 'none';
+                } else if (tab.textContent.trim() === 'Create Email') {
+                    emailTabContent.style.display = 'none';
+                    sentTabContent.style.display = 'none';
+                    createEmailForm.style.display = 'block';
                 }
             });
         });
-    </script>
-    <script>
-        // Function to trigger the file upload dialog when "Bulk Upload" button is clicked
-        function triggerFileUpload() {
-            // Trigger the file input click event
-            document.getElementById('bulkUploadFile').click();
+
+        // Search filter functionality for email table
+        function filterTable() {
+            let input = document.getElementById("searchInput");
+            let filter = input.value.toUpperCase();
+            let table = document.querySelector(".emails-table");
+            let tr = table.getElementsByTagName("tr");
+
+            for (let i = 0; i < tr.length; i++) {
+                let td = tr[i].getElementsByTagName("td");
+                if (td) {
+                    let subject = td[0].textContent || td[0].innerText;
+                    let examId = td[1].textContent || td[1].innerText;
+                    let memberId = td[2].textContent || td[2].innerText;
+
+                    if (subject.toUpperCase().indexOf(filter) > -1 || 
+                        examId.toUpperCase().indexOf(filter) > -1 || 
+                        memberId.toUpperCase().indexOf(filter) > -1) {
+                        tr[i].style.display = "";
+                    } else {
+                        tr[i].style.display = "none";
+                    }
+                }
+            }
         }
 
-        // Optional: Submit the file upload when the user selects a file (you can customize this as needed)
-        document.getElementById('bulkUploadFile').addEventListener('change', function() {
-            if (this.files.length > 0) {
-                // Automatically submit the form or do any other logic here
-                alert('File selected: ' + this.files[0].name);  // You can replace this with actual upload logic
-            }
-        });
+        // Search filter functionality for sent email table
+        function filterSentTable() {
+            let input = document.getElementById("searchInputSent");
+            let filter = input.value.toUpperCase();
+            let table = document.querySelector(".sent-emails-table");
+            let tr = table.getElementsByTagName("tr");
 
-        // Optional: If you want to submit the bulk upload form when the button is clicked
-        function submitBulkUpload() {
-            // Here you would typically submit the form or trigger a file upload process
-            alert('File uploaded!');
+            for (let i = 0; i < tr.length; i++) {
+                let td = tr[i].getElementsByTagName("td");
+                if (td) {
+                    let subject = td[0].textContent || td[0].innerText;
+                    let examId = td[1].textContent || td[1].innerText;
+                    let memberId = td[2].textContent || td[2].innerText;
+
+                    if (subject.toUpperCase().indexOf(filter) > -1 || 
+                        examId.toUpperCase().indexOf(filter) > -1 || 
+                        memberId.toUpperCase().indexOf(filter) > -1) {
+                        tr[i].style.display = "";
+                    } else {
+                        tr[i].style.display = "none";
+                    }
+                }
+            }
         }
     </script>
 </body>

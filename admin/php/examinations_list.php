@@ -26,7 +26,12 @@ $examinations = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <?php if ($examinations): ?>
                 <?php foreach ($examinations as $exam): ?>
                     <tr>
-                        <td><?php echo htmlspecialchars($exam['id']); ?></td>
+                        <td>
+                            <!-- Only the Exam ID is clickable -->
+                            <a href="edit_exam.php?id=<?php echo urlencode($exam['id']); ?>" title="Edit Examination">
+                                <?php echo htmlspecialchars($exam['id']); ?>
+                            </a>
+                        </td>
                         <td><?php echo htmlspecialchars($exam['title']); ?></td>
                         <td><?php echo htmlspecialchars($exam['date']); ?></td>
                         <td><?php echo htmlspecialchars($exam['time']); ?></td>
