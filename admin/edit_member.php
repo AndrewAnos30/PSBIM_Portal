@@ -14,7 +14,7 @@ $stmt->execute();
 // Fetch the member details
 $member = $stmt->fetch(PDO::FETCH_ASSOC);
 
-// If member exists, display the form, otherwise show an error
+// If member does not exist
 if (!$member) {
     echo 'Member not found!';
     exit;
@@ -50,51 +50,49 @@ if (!$member) {
 
                     <!-- First Name -->
                     <label for="firstname">First Name:</label>
-                    <input type="text" id="firstname" name="firstname" value="<?php echo htmlspecialchars($member['firstname']); ?>" required>
+                    <input type="text" id="firstname" name="firstname" 
+                           value="<?php echo htmlspecialchars($member['firstname']); ?>" required>
 
                     <!-- Last Name -->
                     <label for="lastname">Last Name:</label>
-                    <input type="text" id="lastname" name="lastname" value="<?php echo htmlspecialchars($member['lastname']); ?>" required>
+                    <input type="text" id="lastname" name="lastname" 
+                           value="<?php echo htmlspecialchars($member['lastname']); ?>" required>
 
                     <!-- Middle Name -->
                     <label for="middlename">Middle Name:</label>
-                    <input type="text" id="middlename" name="middlename" value="<?php echo htmlspecialchars($member['middlename']); ?>">
+                    <input type="text" id="middlename" name="middlename" 
+                           value="<?php echo htmlspecialchars($member['middlename']); ?>">
 
                     <!-- Extension Name -->
                     <label for="extensionname">Extension Name:</label>
-                    <input type="text" id="extensionname" name="extensionname" value="<?php echo htmlspecialchars($member['extensionname']); ?>">
-
-                    <!-- Gender -->
-                    <label for="gender">Gender:</label>
-                    <select id="gender" name="gender" required>
-                        <option value="Male" <?php echo $member['gender'] == 'Male' ? 'selected' : ''; ?>>Male</option>
-                        <option value="Female" <?php echo $member['gender'] == 'Female' ? 'selected' : ''; ?>>Female</option>
-                        <option value="Other" <?php echo $member['gender'] == 'Other' ? 'selected' : ''; ?>>Other</option>
-                    </select>
-
-                    <!-- Date of Birth -->
-                    <label for="dob">Date of Birth:</label>
-                    <input type="date" id="dob" name="dob" value="<?php echo htmlspecialchars($member['dob']); ?>" required>
+                    <input type="text" id="extensionname" name="extensionname" 
+                           value="<?php echo htmlspecialchars($member['extensionname']); ?>">
 
                     <!-- Email -->
                     <label for="email">Email:</label>
-                    <input type="email" id="email" name="email" value="<?php echo htmlspecialchars($member['email']); ?>" required>
-
-                    <!-- Mobile -->
-                    <label for="mobile">Mobile:</label>
-                    <input type="text" id="mobile" name="mobile" value="<?php echo htmlspecialchars($member['mobile']); ?>" required>
+                    <input type="email" id="email" name="email" 
+                           value="<?php echo htmlspecialchars($member['email']); ?>" required>
 
                     <!-- Examination ID -->
                     <label for="examination_id">Examination ID:</label>
-                    <input type="text" id="examination_id" name="examination_id" value="<?php echo htmlspecialchars($latestExaminationID); ?>" required>
+                    <input type="text" id="examination_id" name="examination_id" 
+                           value="<?php echo htmlspecialchars($latestExaminationID); ?>" required>
 
                     <!-- Room Number -->
                     <label for="room_number">Room Number:</label>
-                    <input type="text" id="room_number" name="room_number" value="<?php echo htmlspecialchars($member['room_number']); ?>" required>
+                    <input type="text" id="room_number" name="room_number" 
+                           value="<?php echo htmlspecialchars($member['room_number']); ?>" required>
 
                     <!-- Seat Number -->
                     <label for="seat_number">Seat Number:</label>
-                    <input type="text" id="seat_number" name="seat_number" value="<?php echo htmlspecialchars($member['seat_number']); ?>" required>
+                    <input type="text" id="seat_number" name="seat_number" 
+                           value="<?php echo htmlspecialchars($member['seat_number']); ?>" required>
+
+                    <!-- 🔗 Google Form Link -->
+                    <label for="link">Google Form Link (optional):</label>
+                    <input type="url" id="link" name="link" 
+                           value="<?php echo htmlspecialchars($member['link']); ?>" 
+                           placeholder="https://forms.gle/...">
 
                     <!-- Status -->
                     <label for="status">Status:</label>
@@ -104,7 +102,7 @@ if (!$member) {
                         <option value="Failed" <?php echo $member['status'] == 'Failed' ? 'selected' : ''; ?>>Failed</option>
                     </select>
 
-                    <!-- Password (Optional - Depending on your system, you can either allow password change or leave it unchanged) -->
+                    <!-- Password (optional) -->
                     <label for="password">Password (Leave blank if not changing):</label>
                     <input type="password" id="password" name="password" placeholder="Enter new password">
 
@@ -113,17 +111,5 @@ if (!$member) {
             </div>
         </div>
     </div>
-
-    <script>
-        // Function to toggle the content between Edit and Members tabs if you want
-        const tabs = document.querySelectorAll('.profile-tabs li');
-        tabs.forEach(tab => {
-            tab.addEventListener('click', () => {
-                // Toggle active class
-                tabs.forEach(t => t.classList.remove('active'));
-                tab.classList.add('active');
-            });
-        });
-    </script>
 </body>
 </html>

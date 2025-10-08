@@ -41,9 +41,9 @@
 
                     <label for="role">Role:</label>
                     <select id="role" name="role" required>
-                        <option value="superadmin">Superadmin</option>
-                        <option value="admin">Admin</option>
-                        <option value="moderator">Cluster Head</option>
+                        <option value="Super Admin">Super Admin</option>
+                        <option value="Admin">Admin</option>
+                        <option value="Contractual">Contractual</option>
                     </select>
 
                     <label for="status">Status:</label>
