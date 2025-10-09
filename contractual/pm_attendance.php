@@ -13,12 +13,12 @@
     <div class="content-container">
         <div class="card-container">
             <div class="profile-header">
-                <h2 style="color: #600; margin: 0;">Attendance List</h2>
+                <h2 style="color: #600; margin: 0;">Afternoon Attendance List</h2>
             </div>
 
             <!-- Attendance Table -->
             <div class="lower-container">
-                <?php include('php/attendance_list.php'); ?>
+                <?php include('php/pm_attendance_list.php'); ?>
             </div>
         </div>
     </div>

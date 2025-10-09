@@ -9,23 +9,14 @@
 
 <nav class="navbar">
     <ul>
-        <li><a href="members.php" id="members">
-            <i class="fas fa-users"></i> <span class="nav-text">MEMBERS</span>
+        <li><a href="examinees.php" id="examinee-list">
+            <i class="fas fa-users"></i> <span class="nav-text">EXAMINEE LIST</span>
         </a></li>
-        <li><a href="emails.php">
-            <i class="fas fa-envelope"></i> <span class="nav-text">EMAILING</span>
+        <li><a href="am_attendance.php" id="am">
+            <i class="fas fa-sun"></i> <span class="nav-text">AM</span>
         </a></li>
-        <li><a href="examinations.php">
-            <i class="fas fa-file-alt"></i> <span class="nav-text">EXAMINATION</span>
-        </a></li>
-        <li><a href="reminders.php">
-            <i class="fas fa-bell"></i> <span class="nav-text">REMINDERS</span>
-        </a></li>
-        <li><a href="admins.php">
-            <i class="fas fa-user"></i> <span class="nav-text">ADMIN</span>
-        </a></li>
-        <li><a href="settings.php">
-            <i class="fas fa-cogs"></i> <span class="nav-text">SETTINGS</span>
+        <li><a href="pm_attendance.php" id="pm">
+            <i class="fas fa-cloud-sun"></i> <span class="nav-text">PM</span>
         </a></li>
     </ul>
 </nav>
