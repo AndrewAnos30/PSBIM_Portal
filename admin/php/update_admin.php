@@ -4,44 +4,53 @@ include('../../connection/conn.php');
 
 // Check if the form is submitted
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Get the exam ID and other form data
-    $exam_id  = isset($_POST['old_id']) ? intval($_POST['old_id']) : 0;
-    $title    = trim($_POST['title'] ?? '');
-    $date     = trim($_POST['date'] ?? '');
-    $time     = trim($_POST['time'] ?? '');
-    $location = trim($_POST['location'] ?? '');
+    // Get and sanitize form data
+    $id       = isset($_POST['id']) ? intval($_POST['id']) : 0;
+    $email    = trim($_POST['email'] ?? '');
+    $role     = trim($_POST['role'] ?? '');
+    $status   = trim($_POST['status'] ?? '');
+    $password = trim($_POST['password'] ?? '');
 
-    // Validate input
-    if ($exam_id <= 0) {
-        die("Invalid Examination ID.");
+    // Validate inputs
+    if ($id <= 0) {
+        die("Invalid admin ID.");
     }
-    if (empty($title) || empty($date) || empty($time) || empty($location)) {
-        die("All fields are required.");
+    if (empty($email) || empty($role) || empty($status)) {
+        die("Email, role, and status are required.");
     }
 
     try {
-        // Update the examinations table
-        $sql = "UPDATE examinations SET 
-                    title = :title,
-                    date = :date,
-                    time = :time,
-                    location = :location
-                WHERE id = :id";
+        // If password is provided, update it too
+        if (!empty($password)) {
+            $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+            $sql = "UPDATE admin 
+                    SET email = :email, role = :role, status = :status, password = :password 
+                    WHERE id = :id";
+            $stmt = $pdo->prepare($sql);
+            $stmt->bindParam(':password', $hashedPassword, PDO::PARAM_STR);
+        } else {
+            // Update everything except password
+            $sql = "UPDATE admin 
+                    SET email = :email, role = :role, status = :status 
+                    WHERE id = :id";
+            $stmt = $pdo->prepare($sql);
+        }
 
-        $stmt = $pdo->prepare($sql);
-        $stmt->bindParam(':title', $title, PDO::PARAM_STR);
-        $stmt->bindParam(':date', $date, PDO::PARAM_STR);
-        $stmt->bindParam(':time', $time, PDO::PARAM_STR);
-        $stmt->bindParam(':location', $location, PDO::PARAM_STR);
-        $stmt->bindParam(':id', $exam_id, PDO::PARAM_INT);
+        // Bind common parameters
+        $stmt->bindParam(':email', $email, PDO::PARAM_STR);
+        $stmt->bindParam(':role', $role, PDO::PARAM_STR);
+        $stmt->bindParam(':status', $status, PDO::PARAM_STR);
+        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+
+        // Execute update
         $stmt->execute();
 
-        // Redirect back to exams list
-        header("Location: ../exams.php");
+        // Redirect back to the admin list (or wherever your admin management page is)
+        header("Location: ../admins.php");
         exit;
 
     } catch (PDOException $e) {
-        echo "Error updating examination: " . $e->getMessage();
+        echo "Error updating admin: " . $e->getMessage();
     }
 }
 ?>

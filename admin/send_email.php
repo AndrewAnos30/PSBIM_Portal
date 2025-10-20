@@ -1,4 +1,12 @@
-<?php
+<?php   
+session_start();
+
+// ✅ Allow only logged-in admins
+if (!isset($_SESSION['admin_id'])) {
+    header("Location: ../admin-login.php");
+    exit;
+}
+
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 

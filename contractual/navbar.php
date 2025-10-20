@@ -1,3 +1,13 @@
+<?php
+    if (session_status() === PHP_SESSION_NONE) {
+        session_start();
+    }
+
+    if (!isset($_SESSION['contractual_id'])) {
+        header("Location: ../contractual-login.php"); // redirect to contractual login page
+        exit;
+    }
+?>
 <link rel="stylesheet" href="css/navbar.css">
 <link rel="stylesheet" href="css/passport.css">
 

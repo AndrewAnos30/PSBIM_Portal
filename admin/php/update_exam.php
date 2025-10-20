@@ -1,4 +1,12 @@
 <?php
+session_start();
+
+// ✅ Restrict access to logged-in admins only
+if (!isset($_SESSION['admin_id'])) {
+    header("Location: ../../admin-login.php"); // Go two folders up to reach admin-login.php
+    exit;
+}
+
 include('../../connection/conn.php');
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {

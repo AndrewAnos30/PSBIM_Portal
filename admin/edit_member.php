@@ -1,4 +1,12 @@
 <?php
+session_start();
+
+// ✅ Restrict access to logged-in admins only
+if (!isset($_SESSION['admin_id'])) {
+    header("Location: ../admin-login.php"); // Go one folder back to admin-login
+    exit;
+}
+
 // Include the database connection
 include('../connection/conn.php');
 
@@ -87,12 +95,6 @@ if (!$member) {
                     <label for="seat_number">Seat Number:</label>
                     <input type="text" id="seat_number" name="seat_number" 
                            value="<?php echo htmlspecialchars($member['seat_number']); ?>" required>
-
-                    <!-- 🔗 Google Form Link -->
-                    <label for="link">Google Form Link (optional):</label>
-                    <input type="url" id="link" name="link" 
-                           value="<?php echo htmlspecialchars($member['link']); ?>" 
-                           placeholder="https://forms.gle/...">
 
                     <!-- Status -->
                     <label for="status">Status:</label>

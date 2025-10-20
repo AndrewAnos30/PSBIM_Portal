@@ -1,4 +1,12 @@
 <?php
+session_start();
+
+// ✅ Restrict access to logged-in admins only
+if (!isset($_SESSION['admin_id'])) {
+    header("Location: ../../admin-login.php"); // Go two folders up to reach admin-login.php
+    exit;
+}
+
 // Include the database connection
 include('../../connection/conn.php');
 
@@ -15,7 +23,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $room_number = htmlspecialchars($_POST['room_number']);
     $seat_number = htmlspecialchars($_POST['seat_number']);
     $status = htmlspecialchars($_POST['status']);
-    $link = htmlspecialchars($_POST['link']); // ✅ New link field
     $password = htmlspecialchars($_POST['password']);
 
     // Base SQL (no gender, dob, or mobile)
@@ -28,7 +35,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 examination_id = :examination_id, 
                 room_number = :room_number, 
                 seat_number = :seat_number, 
-                link = :link,  /* ✅ include link update */
                 status = :status";
 
     // If new password provided → include it in the update
@@ -51,7 +57,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $stmt->bindParam(':examination_id', $examination_id);
         $stmt->bindParam(':room_number', $room_number);
         $stmt->bindParam(':seat_number', $seat_number);
-        $stmt->bindParam(':link', $link);
         $stmt->bindParam(':status', $status);
         $stmt->bindParam(':username', $username);
 

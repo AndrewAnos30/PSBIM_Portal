@@ -1,3 +1,12 @@
+<?php
+session_start();
+
+// ✅ Restrict access to logged-in contractuals only
+if (!isset($_SESSION['contractual_id'])) {
+    header("Location: ../contractual-login.php"); // redirect to your login page
+    exit;
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>

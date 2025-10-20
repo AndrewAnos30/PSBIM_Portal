@@ -1,4 +1,5 @@
 <?php
+
 // Include the database connection (which uses PDO)
 include('../connection/conn.php');
 

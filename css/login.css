@@ -1,0 +1,167 @@
+/* ========================================
+   PSBIM Portal – Login Page
+   Clean white layout with maroon palette (#4d0a0b)
+   ======================================== */
+
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap");
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "Inter", sans-serif;
+  background-color: #ffffff;
+  color: #222;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+/* ==== Container ==== */
+.content-container {
+  background-color: #ffffff;
+  border: 1px solid #e0e0e0;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 420px;
+  padding: 2.5rem 2rem;
+  text-align: center;
+  animation: fadeIn 0.5s ease;
+  box-sizing: border-box;
+}
+
+/* ==== Title ==== */
+.title h2 {
+  color: #4d0a0b;
+  margin-bottom: 2rem;
+  font-size: 1.8rem;
+  font-weight: 600;
+}
+
+/* ==== Error Message ==== */
+.error-msg {
+  color: #b30000;
+  background: #ffe6e6;
+  padding: 0.6rem;
+  border-radius: 8px;
+  font-weight: 500;
+  margin-bottom: 1.2rem;
+}
+
+/* ==== Form ==== */
+.form-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 1.6rem; /* increased gap between fields */
+  align-items: stretch;
+}
+
+.form-group {
+  width: 100%;
+  text-align: left;
+  margin-bottom: 1.2rem; /* ✅ space between each input group */
+}
+
+label {
+  display: block;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+  color: #333;
+}
+
+input[type="text"],
+input[type="password"] {
+  width: 100%;
+  padding: 0.9rem 1rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: all 0.2s ease;
+  box-sizing: border-box;
+}
+
+input[type="text"]:focus,
+input[type="password"]:focus {
+  border-color: #4d0a0b;
+  box-shadow: 0 0 5px rgba(77, 10, 11, 0.25);
+  outline: none;
+}
+
+/* ==== Button ==== */
+button[type="submit"] {
+  width: 100%;
+  background-color: #4d0a0b;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 1rem;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.2s ease;
+  margin-top: 0.9rem; /* extra breathing room above the button */
+  box-sizing: border-box;
+}
+
+button[type="submit"]:hover {
+  background-color: #6b1011;
+  transform: translateY(-1px);
+}
+
+/* ==== Footer ==== */
+footer {
+  margin-top: 2rem;
+  font-size: 0.9rem;
+  color: #666;
+  text-align: center;
+}
+
+/* ==== Animation ==== */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ==== Mobile Responsiveness ==== */
+@media (max-width: 480px) {
+  body {
+    padding: 1rem;
+  }
+
+  .content-container {
+    max-width: 100%;
+    padding: 2rem 1.5rem;
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+  }
+
+  .title h2 {
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .form-container {
+    gap: 1.4rem;
+  }
+
+  input[type="text"],
+  input[type="password"],
+  button[type="submit"] {
+    font-size: 0.95rem;
+    padding: 0.85rem;
+  }
+
+  footer {
+    font-size: 0.85rem;
+    margin-top: 1.2rem;
+  }
+}

@@ -1,3 +1,12 @@
+<?php
+session_start();
+
+// ✅ Restrict access to logged-in admins only
+if (!isset($_SESSION['admin_id'])) {
+    header("Location: ../admin-login.php");
+    exit;
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -20,10 +29,10 @@
                 </ul>
             </div>
 
-            <!-- Members List -->
+            <!-- Examinee List -->
             <div class="lower-container">
                 <div class="search-container">
-                    <input type="text" id="searchInput" placeholder="Search members..." onkeyup="filterTable()">
+                    <input type="text" id="searchInput" placeholder="Search examinees..." onkeyup="filterTable()">
                 </div>
                 <?php include('php/members_list.php'); ?>
             </div>
@@ -31,7 +40,6 @@
             <!-- Create Form -->
             <div class="create-form-container" style="display: none;">
                 <form action="php/create_members.php" method="POST" class="create-form">
-                    
                     <label for="username">Username:</label>
                     <input type="text" id="username" name="username" required>
 
@@ -54,18 +62,14 @@
                     <input type="email" id="email" name="email" required>
 
                     <label for="examination_id">Examination ID:</label>
-                    <input type="text" id="examination_id" name="examination_id" 
-                           value="<?php echo htmlspecialchars($latestExaminationID); ?>" required>
+                    <input type="text" id="examination_id" name="examination_id"
+                        value="<?php echo htmlspecialchars($latestExaminationID); ?>" required>
 
                     <label for="room_number">Room Number:</label>
                     <input type="text" id="room_number" name="room_number" required>
 
                     <label for="seat_number">Seat Number:</label>
                     <input type="text" id="seat_number" name="seat_number" required>
-
-                    <!-- 🔗 Link Field (Google Form Prefilled URL) -->
-                    <label for="link">Google Form Link (optional):</label>
-                    <input type="url" id="link" name="link" placeholder="https://forms.gle/...">
 
                     <label for="status">Status:</label>
                     <select id="status" name="status" required>
@@ -74,16 +78,26 @@
                         <option value="Failed">Failed</option>
                     </select>
 
-                    <button type="submit">Create Member</button>
+                    <button type="submit">Add Examinee</button>
                 </form>
 
                 <!-- Bulk Upload Section -->
-                <button id="bulkUploadButton" onclick="triggerFileUpload()">Bulk Upload Examinee</button>
+                <div class="bulk-upload-section">
+                    <button id="bulkUploadButton" class="btn-upload">BULK UPLOAD</button>
 
-                <div id="bulkUploadForm" style="display: none;">
-                    <h3>Upload CSV for Bulk Member Creation</h3>
-                    <input type="file" id="bulkUploadFile" name="bulkUploadFile" accept=".csv" required style="display:none;">
-                    <button type="submit" onclick="submitBulkUpload()">Upload CSV</button>
+                    <div id="bulkUploadForm" style="display: none; margin-top: 1em;">
+                        <h3>Upload Examinee List</h3>
+                        <p>Upload a <strong>.csv file</strong> containing your examinees’ details.  
+                        You can <a href="../csv/members_sample.csv" download style="color:#511b11; text-decoration:underline;">download a sample file here</a>.</p>
+
+                        <form id="bulkUploadFormElement" enctype="multipart/form-data">
+                            <input type="file" id="bulkUploadFile" name="bulkUploadFile" accept=".csv" required>
+                            <button type="submit" class="btn-submit">Upload File</button>
+                        </form>
+                    </div>
+
+                    <!-- Inline feedback message -->
+                    <div id="uploadResult" class="alert" style="display:none;"></div>
                 </div>
             </div>
         </div>
@@ -109,19 +123,57 @@
             });
         });
 
-        // Bulk upload controls
-        function triggerFileUpload() {
-            document.getElementById('bulkUploadFile').click();
-        }
+        // Bulk Upload Logic
+        const bulkButton = document.getElementById('bulkUploadButton');
+        const bulkForm = document.getElementById('bulkUploadForm');
+        const uploadResult = document.getElementById('uploadResult');
 
-        document.getElementById('bulkUploadFile').addEventListener('change', function() {
-            if (this.files.length > 0) {
-                alert('File selected: ' + this.files[0].name);
+        bulkButton.addEventListener('click', () => {
+            bulkForm.style.display = 'block';
+            bulkButton.style.display = 'none';
+        });
+
+        document.getElementById('bulkUploadFormElement').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const file = document.getElementById('bulkUploadFile').files[0];
+            if (!file) {
+                showResult('⚠️ Please select a file first.', 'error');
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append('bulkUploadFile', file);
+
+            showResult('⏳ Uploading, please wait...', 'warning');
+
+            try {
+                const response = await fetch('php/bulk_upload_members.php', {
+                    method: 'POST',
+                    body: formData
+                });
+                const result = await response.json();
+
+                if (result.success) {
+                    showResult(`✅ Upload complete! ${result.inserted} record(s) added.`, 'success');
+                } else if (result.inserted > 0) {
+                    showResult(`⚠️ Some records were added, but others need fixing.`, 'warning');
+                } else {
+                    showResult(`❌ Upload failed. Please check your file and try again.`, 'error');
+                }
+
+            } catch (err) {
+                showResult(`❌ Something went wrong. Please try again later.`, 'error');
             }
         });
 
-        function submitBulkUpload() {
-            alert('File uploaded!');
+        function showResult(message, type) {
+            uploadResult.style.display = 'block';
+            uploadResult.className = 'alert';
+            if (type === 'success') uploadResult.classList.add('alert-success');
+            else if (type === 'warning') uploadResult.classList.add('alert-warning');
+            else uploadResult.classList.add('alert-error');
+            uploadResult.textContent = message;
         }
     </script>
 </body>

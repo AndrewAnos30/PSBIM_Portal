@@ -1,25 +1,30 @@
 <?php
-// Database configuration
-$host = 'localhost'; // Database host (default for XAMPP)
-$dbname = 'psbim';   // Your database name (psbim)
-$username = 'root';   // Default username for XAMPP MySQL
-$password = '';       // Default password is empty for XAMPP
+// ====================================
+// Secure Database Connection
+// ====================================
 
-// DSN (Data Source Name) for PDO connection
-$dsn = "mysql:host=$host;dbname=$dbname;charset=utf8";
+// Database credentials
+$host = 'localhost';
+$dbname = 'psbim';
+$username = 'root';
+$password = '';
+
+// PDO Data Source Name
+$dsn = "mysql:host=$host;dbname=$dbname;charset=utf8mb4";
+
+// PDO options for better security and performance
+$options = [
+    PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION, // Use exceptions for errors
+    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,       // Return associative arrays
+    PDO::ATTR_EMULATE_PREPARES   => false,                  // Use real prepared statements
+];
 
 try {
-    // Create a PDO instance
-    $pdo = new PDO($dsn, $username, $password);
-
-    // Set the PDO error mode to exception
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-    // Optionally, you can log successful connections
-    // echo "Connection successful!";
+    $pdo = new PDO($dsn, $username, $password, $options);
 } catch (PDOException $e) {
-    // Catch any exceptions and display the error message
-    echo "Connection failed: " . $e->getMessage();
-    exit; // Exit the script if the connection fails
+    // ❌ Don't display error details to users
+    // ✅ Log it to a server file instead
+    error_log("[" . date('Y-m-d H:i:s') . "] DB Connection failed: " . $e->getMessage() . "\n", 3, __DIR__ . '/db_error.log');
+    die('Database connection error.');
 }
 ?>

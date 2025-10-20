@@ -1,4 +1,12 @@
 <?php
+session_start();
+
+// ✅ Restrict access to logged-in admins only
+if (!isset($_SESSION['admin_id'])) {
+    header("Location: ../admin-login.php"); // Go one folder back to admin-login
+    exit;
+}
+
 include('../connection/conn.php');
 
 // Get the exam ID from URL

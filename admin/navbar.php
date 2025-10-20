@@ -1,3 +1,15 @@
+<?php
+// ✅ Start session safely
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
+// ✅ Restrict access to logged-in admins only
+if (!isset($_SESSION['admin_id'])) {
+    header("Location: ../admin-login.php"); // Go two folders up to reach admin-login.php
+    exit;
+}
+?>
 <link rel="stylesheet" href="css/navbar.css">
 <link rel="stylesheet" href="css/passport.css">
 
@@ -24,8 +36,8 @@
         <li><a href="admins.php">
             <i class="fas fa-user"></i> <span class="nav-text">ADMIN</span>
         </a></li>
-        <li><a href="settings.php">
-            <i class="fas fa-cogs"></i> <span class="nav-text">SETTINGS</span>
+        <li><a href="attendance.php">
+            <i class="fas fa-user-check"></i> <span class="nav-text">ATTENDANCE</span>
         </a></li>
     </ul>
 </nav>

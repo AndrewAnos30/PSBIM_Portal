@@ -1,3 +1,21 @@
+<?php
+// ✅ Start session safely (no warnings even if already active)
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
+// ✅ Block direct access (only allow via include)
+if (basename($_SERVER['PHP_SELF']) === basename(__FILE__)) {
+    header('Location: ../index.php');
+    exit;
+}
+
+// ✅ Redirect to login if user not logged in
+if (!isset($_SESSION['user_id'])) {
+    header('Location: ../index.php');
+    exit;
+}
+?>
 <link rel="stylesheet" href="css/navbar.css">
 <link rel="stylesheet" href="css/passport.css">
 
