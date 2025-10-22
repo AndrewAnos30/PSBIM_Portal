@@ -61,6 +61,12 @@ if (!isset($_SESSION['admin_id'])) {
                     <label for="email">Email:</label>
                     <input type="email" id="email" name="email" required>
 
+                    <label for="training_institution">Training Institution:</label>
+                    <input type="text" id="training_institution" name="training_institution" required>
+
+                    <label for="prc_number">PRC Number:</label>
+                    <input type="text" id="prc_number" name="prc_number" required>
+
                     <label for="examination_id">Examination ID:</label>
                     <input type="text" id="examination_id" name="examination_id"
                         value="<?php echo htmlspecialchars($latestExaminationID); ?>" required>

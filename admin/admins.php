@@ -26,7 +26,6 @@ if (!isset($_SESSION['admin_id'])) {
                 <ul class="profile-tabs">
                     <li class="active" data-tab="admin">Admin</li>
                     <li data-tab="create-admin">Create Admin</li>
-                    <li data-tab="create-contractual">Create Contractual</li>
                 </ul>
             </div>
 
@@ -62,38 +61,7 @@ if (!isset($_SESSION['admin_id'])) {
                 </form>
             </div>
 
-            <!-- Create Contractual Form -->
-            <div class="create-form-container" data-content="create-contractual" style="display: none;">
-                <form action="php/create_contractual.php" method="POST" class="create-form">
 
-                    <label for="username_contractual">Username:</label>
-                    <input type="text" id="username_contractual" name="username" required>
-
-                    <label for="password_contractual">Password:</label>
-                    <input type="password" id="password_contractual" name="password" required>
-
-                    <label for="role_contractual">Role:</label>
-                    <select id="role_contractual" name="role" required>
-                        <option value="Contractual">Contractual</option>
-                    </select>
-
-                    <label for="status_contractual">Status:</label>
-                    <select id="status_contractual" name="status" required>
-                        <option value="active">Active</option>
-                        <option value="inactive">Inactive</option>
-                        <option value="suspended">Suspended</option>
-                    </select>
-
-                    <!-- New Fields -->
-                    <label for="examination_id_contractual">Examination ID:</label>
-                    <input type="text" id="examination_id_contractual" name="examination_id" value="<?php echo htmlspecialchars($latestExaminationID); ?>">
-
-                    <label for="room_number_contractual">Room Number:</label>
-                    <input type="text" id="room_number_contractual" name="room_number">
-
-                    <button type="submit">Create Contractual</button>
-                </form>
-            </div>
         </div>
     </div>
 

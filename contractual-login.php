@@ -13,7 +13,7 @@ session_start();
     <main class="content-container">
         <!-- Optional PCP Logo -->
         <div class="logo-container">
-            <img src="img/psbim-logo.png" alt="PSBIM Logo" style="width:150px; margin-bottom:1rem;">
+            <img src="img/psbim-logo.jpg" alt="PSBIM Logo" style="width:150px; margin-bottom:1rem;">
         </div>
 
         <div class="title">

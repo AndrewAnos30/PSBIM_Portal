@@ -6,9 +6,12 @@ if (session_status() === PHP_SESSION_NONE) {
 
 // ✅ Restrict access to logged-in admins only
 if (!isset($_SESSION['admin_id'])) {
-    header("Location: ../admin-login.php"); // Go two folders up to reach admin-login.php
+    header("Location: ../admin-login.php");
     exit;
 }
+
+// ✅ Get user role
+$admin_role = $_SESSION['admin_role']; // Default to 'Admin' if not set
 ?>
 <link rel="stylesheet" href="css/navbar.css">
 <link rel="stylesheet" href="css/passport.css">
@@ -30,12 +33,16 @@ if (!isset($_SESSION['admin_id'])) {
         <li><a href="examinations.php">
             <i class="fas fa-file-alt"></i> <span class="nav-text">EXAMINATION</span>
         </a></li>
-        <li><a href="reminders.php">
-            <i class="fas fa-bell"></i> <span class="nav-text">REMINDERS</span>
-        </a></li>
+        <?php if ($admin_role === 'Super Admin'): ?>
         <li><a href="admins.php">
             <i class="fas fa-user"></i> <span class="nav-text">ADMIN</span>
         </a></li>
+        <?php endif; ?>
+
+        <li><a href="contractual.php">
+            <i class="fas fa-id-badge"></i> <span class="nav-text">CONTRACTUAL</span>
+        </a></li>
+
         <li><a href="attendance.php">
             <i class="fas fa-user-check"></i> <span class="nav-text">ATTENDANCE</span>
         </a></li>

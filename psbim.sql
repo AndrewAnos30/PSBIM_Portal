@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 09, 2025 at 08:25 AM
+-- Generation Time: Oct 22, 2025 at 03:35 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.0.30
 
@@ -43,7 +43,36 @@ CREATE TABLE `admin` (
 --
 
 INSERT INTO `admin` (`id`, `username`, `password`, `email`, `role`, `status`, `created_at`, `updated_at`) VALUES
-(1, 'pcp@admin', '$2y$10$zz46PMuitSPwQWfqpd/mae.o/5ATfTYrRBWC5iE2rzTZS9A6APzrK', 'johnandrew.anos@pcp.org.ph', 'Contractual', 'Active', '2025-10-08 01:47:53', '2025-10-08 02:45:29');
+(3, 'PCPAndrew', '$2y$10$87qt/QEJJlxcQ1UjCpseP.mpuif75hr7WEQlOEkD31sB9JTBsMYnu', 'johnandrew.anos@pcp.org.ph', 'Super Admin', 'Active', '2025-10-22 01:02:23', '2025-10-22 01:02:23');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `am_attendance`
+--
+
+CREATE TABLE `am_attendance` (
+  `id` int(11) NOT NULL,
+  `username` varchar(100) NOT NULL,
+  `attendance` tinyint(1) NOT NULL DEFAULT 0,
+  `timestamp` datetime DEFAULT current_timestamp(),
+  `examination_id` varchar(50) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `contractual`
+--
+
+CREATE TABLE `contractual` (
+  `id` int(11) NOT NULL,
+  `username` varchar(100) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  `examination_id` varchar(50) NOT NULL,
+  `room_number` varchar(50) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -58,13 +87,6 @@ CREATE TABLE `emails` (
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `emails`
---
-
-INSERT INTO `emails` (`id`, `subject`, `examination_id`, `created_at`, `updated_at`) VALUES
-(1, 'PSBIM Examination Credentials', 'PSBIM2026', '2025-10-08 02:01:45', '2025-10-08 02:01:45');
 
 -- --------------------------------------------------------
 
@@ -81,13 +103,6 @@ CREATE TABLE `examinations` (
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `examinations`
---
-
-INSERT INTO `examinations` (`id`, `title`, `date`, `time`, `location`, `created_at`, `updated_at`) VALUES
-('PSBIM2026', 'PSBIM Examination', '2026-03-04', '06:00:00', 'Pamantansan ng Lungsod ng Maynila', '2025-10-08 01:50:24', '2025-10-08 01:50:24');
 
 -- --------------------------------------------------------
 
@@ -112,13 +127,19 @@ CREATE TABLE `members` (
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+-- --------------------------------------------------------
+
 --
--- Dumping data for table `members`
+-- Table structure for table `pm_attendance`
 --
 
-INSERT INTO `members` (`id`, `username`, `password`, `firstname`, `lastname`, `middlename`, `extensionname`, `email`, `examination_id`, `room_number`, `seat_number`, `status`, `created_at`, `updated_at`) VALUES
-(1, 'JATA20260001', '$2y$10$yH5ec72U/6KF9ynReJaDSOAzup6b.c6QpZsWww2j/hF9gPWKQG0ga', 'John Andrew', 'Sona', 'Tuazon', 'Sr', 'andrewanos3001@gmail.com', 'PSBIM2026', 'Room A10', '2026-A10-0001', 'Awaiting Exam', '2025-10-08 01:52:38', '2025-10-08 07:42:44'),
-(2, 'JBC2025002', '$2y$10$/J9Q3EuTajX5N2J.JnP9E.yvqtYJH3vwxJu9YJ9B9EAjLdXc6hS3q', 'John Benedict', 'Cueto', 'Sarmiento', '', 'johnbenedict.cueto@pcp.org.ph', 'PSBIM2026', 'Room A20', '2026-A20-0001', 'Awaiting Exam', '2025-10-08 01:59:34', '2025-10-08 02:30:40');
+CREATE TABLE `pm_attendance` (
+  `id` int(11) NOT NULL,
+  `username` varchar(100) NOT NULL,
+  `attendance` tinyint(1) NOT NULL DEFAULT 0,
+  `timestamp` datetime DEFAULT current_timestamp(),
+  `examination_id` varchar(50) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -135,14 +156,6 @@ CREATE TABLE `sent` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `sent`
---
-
-INSERT INTO `sent` (`id`, `examination_id`, `member_email`, `status`, `timestamp`) VALUES
-(1, 'PSBIM2026', 'andrewanos3001@gmail.com', 'sent', '2025-10-08 10:24:15'),
-(2, 'PSBIM2026', 'johnbenedict.cueto@pcp.org.ph', 'sent', '2025-10-08 10:24:19');
-
---
 -- Indexes for dumped tables
 --
 
@@ -153,6 +166,20 @@ ALTER TABLE `admin`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `username` (`username`),
   ADD UNIQUE KEY `email` (`email`);
+
+--
+-- Indexes for table `am_attendance`
+--
+ALTER TABLE `am_attendance`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `username` (`username`);
+
+--
+-- Indexes for table `contractual`
+--
+ALTER TABLE `contractual`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `username` (`username`);
 
 --
 -- Indexes for table `emails`
@@ -177,6 +204,13 @@ ALTER TABLE `members`
   ADD KEY `fk_members_examination` (`examination_id`);
 
 --
+-- Indexes for table `pm_attendance`
+--
+ALTER TABLE `pm_attendance`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `username` (`username`);
+
+--
 -- Indexes for table `sent`
 --
 ALTER TABLE `sent`
@@ -191,29 +225,53 @@ ALTER TABLE `sent`
 -- AUTO_INCREMENT for table `admin`
 --
 ALTER TABLE `admin`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `am_attendance`
+--
+ALTER TABLE `am_attendance`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `contractual`
+--
+ALTER TABLE `contractual`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `emails`
 --
 ALTER TABLE `emails`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `members`
 --
 ALTER TABLE `members`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
+
+--
+-- AUTO_INCREMENT for table `pm_attendance`
+--
+ALTER TABLE `pm_attendance`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `sent`
 --
 ALTER TABLE `sent`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- Constraints for dumped tables
 --
+
+--
+-- Constraints for table `am_attendance`
+--
+ALTER TABLE `am_attendance`
+  ADD CONSTRAINT `fk_username` FOREIGN KEY (`username`) REFERENCES `members` (`username`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `emails`
@@ -226,6 +284,12 @@ ALTER TABLE `emails`
 --
 ALTER TABLE `members`
   ADD CONSTRAINT `fk_members_examination` FOREIGN KEY (`examination_id`) REFERENCES `examinations` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `pm_attendance`
+--
+ALTER TABLE `pm_attendance`
+  ADD CONSTRAINT `fk_username_pm` FOREIGN KEY (`username`) REFERENCES `members` (`username`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `sent`

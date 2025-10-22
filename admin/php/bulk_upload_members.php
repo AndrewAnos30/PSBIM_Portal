@@ -3,13 +3,14 @@ session_start();
 
 // ✅ Restrict access to logged-in admins only
 if (!isset($_SESSION['admin_id'])) {
-    header("Location: ../../admin-login.php"); // Go two folders up to reach admin-login.php
+    header("Location: ../../admin-login.php");
     exit;
 }
+
 // Return JSON response for AJAX
 header('Content-Type: application/json');
 
-// Include your PDO connection file (adjusted path)
+// Include PDO connection
 require_once __DIR__ . '/../../connection/conn.php';
 
 // Initialize response structure
@@ -52,38 +53,45 @@ try {
         // Skip the header row
         if ($row === 1) continue;
 
-        // Map columns
-        $id             = trim($data[0] ?? '');
-        $username       = trim($data[1] ?? '');
-        $password       = trim($data[2] ?? '');
-        $firstname      = trim($data[3] ?? '');
-        $lastname       = trim($data[4] ?? '');
-        $middlename     = trim($data[5] ?? '');
-        $extensionname  = trim($data[6] ?? '');
-        $email          = trim($data[7] ?? '');
-        $examination_id = trim($data[8] ?? '');
-        $room_number    = trim($data[9] ?? '');
-        $seat_number    = trim($data[10] ?? '');
-        $status         = trim($data[11] ?? 'Awaiting Exam');
+        // ✅ Updated CSV Mapping (added training_institution and prc_number)
+        $id                   = trim($data[0] ?? '');
+        $username             = trim($data[1] ?? '');
+        $password             = trim($data[2] ?? '');
+        $firstname            = trim($data[3] ?? '');
+        $lastname             = trim($data[4] ?? '');
+        $middlename           = trim($data[5] ?? '');
+        $extensionname        = trim($data[6] ?? '');
+        $email                = trim($data[7] ?? '');
+        $training_institution = trim($data[8] ?? '');
+        $prc_number           = trim($data[9] ?? '');
+        $examination_id       = trim($data[10] ?? '');
+        $room_number          = trim($data[11] ?? '');
+        $seat_number          = trim($data[12] ?? '');
+        $status               = trim($data[13] ?? 'Awaiting Exam');
 
-        // Validate required fields
+        // ✅ Validation
         if (
             $id === '' || $username === '' || $password === '' ||
             $firstname === '' || $lastname === '' || $email === '' ||
+            $training_institution === '' || $prc_number === '' ||
             $examination_id === ''
         ) {
             $errors[] = "Row $row skipped: missing required fields.";
             continue;
         }
 
-        // Hash the password
+        // Hash password
         $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
         try {
+            // ✅ Updated INSERT query
             $stmt = $pdo->prepare("
                 INSERT INTO members 
-                (id, username, password, firstname, lastname, middlename, extensionname, email, examination_id, room_number, seat_number, status)
-                VALUES (:id, :username, :password, :firstname, :lastname, :middlename, :extensionname, :email, :examination_id, :room_number, :seat_number, :status)
+                (id, username, password, firstname, lastname, middlename, extensionname, email, 
+                 training_institution, prc_number, examination_id, room_number, seat_number, status)
+                VALUES 
+                (:id, :username, :password, :firstname, :lastname, :middlename, :extensionname, :email, 
+                 :training_institution, :prc_number, :examination_id, :room_number, :seat_number, :status)
             ");
 
             $stmt->execute([
@@ -95,6 +103,8 @@ try {
                 ':middlename' => $middlename,
                 ':extensionname' => $extensionname,
                 ':email' => $email,
+                ':training_institution' => $training_institution,
+                ':prc_number' => $prc_number,
                 ':examination_id' => $examination_id,
                 ':room_number' => $room_number,
                 ':seat_number' => $seat_number,
@@ -109,7 +119,7 @@ try {
 
     fclose($handle);
 
-    // Build response
+    // ✅ Build response
     $response['inserted'] = $inserted;
     $response['success'] = empty($errors);
     $response['message'] = empty($errors)
@@ -123,7 +133,7 @@ try {
     $response['message'] = "❌ Upload failed: " . $e->getMessage();
 }
 
-// Return JSON
+// ✅ Return JSON response
 echo json_encode($response);
 exit;
 ?>

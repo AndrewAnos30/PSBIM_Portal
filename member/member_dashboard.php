@@ -74,17 +74,8 @@ try {
                         <div class="profile-item" id="ExtensionName">
                             <span><strong>Extension Name:</strong> <?= htmlspecialchars($member['extensionname']) ?></span>
                         </div>
-                        <div class="profile-item" id="Gender">
-                            <span><strong>Gender:</strong> <?= htmlspecialchars($member['gender'] ?? 'N/A') ?></span>
-                        </div>
-                        <div class="profile-item" id="DOB">
-                            <span><strong>Date of Birth:</strong> <?= htmlspecialchars($member['dob'] ?? 'N/A') ?></span>
-                        </div>
                         <div class="profile-item" id="Email">
                             <span><strong>Email:</strong> <?= htmlspecialchars($member['email']) ?></span>
-                        </div>
-                        <div class="profile-item" id="Mobile">
-                            <span><strong>Mobile:</strong> <?= htmlspecialchars($member['mobile'] ?? 'N/A') ?></span>
                         </div>
                     </div>
                 </div>

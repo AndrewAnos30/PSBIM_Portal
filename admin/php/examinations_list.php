@@ -1,5 +1,8 @@
 <?php
-session_start();
+// ✅ Start session safely
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 
 // ✅ Restrict access to logged-in admins only
 if (!isset($_SESSION['admin_id'])) {

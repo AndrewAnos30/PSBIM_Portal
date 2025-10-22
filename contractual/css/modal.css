@@ -1,0 +1,71 @@
+/* Member Confirmation Modal (styled like your dashboard) */
+.member-modal {
+  position: fixed;
+  inset: 0;
+  display: none;
+  z-index: 1300;
+  align-items: center;
+  justify-content: center;
+}
+.member-modal.is-open {
+  display: flex;
+}
+.member-modal__backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(3px);
+}
+.member-modal__panel {
+  position: relative;
+  width: min(600px, 92vw);
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+  z-index: 2;
+  animation: modalPop 0.25s ease forwards;
+}
+.member-modal__header {
+  background-color: #f9f9f9;
+  border-bottom: 1px solid #eee;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 20px;
+}
+.member-modal__title {
+  font-weight: 700;
+  color: #600;
+  margin: 0;
+}
+.member-modal__close {
+  background: transparent;
+  border: none;
+  font-size: 1.4rem;
+  cursor: pointer;
+}
+.member-modal__body {
+  padding: 20px;
+  background: #fff;
+}
+.member-modal__footer {
+  display: flex;
+  justify-content: center;
+  padding: 16px;
+  border-top: 1px solid #eee;
+  background-color: #fafafa;
+}
+.btn-confirm {
+  background-color: #600;
+  color: #fff;
+  padding: 10px 24px;
+  font-size: 16px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+.btn-confirm:hover {
+  background-color: #800;
+}

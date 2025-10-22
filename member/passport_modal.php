@@ -1,7 +1,5 @@
 <?php
-// passport_modal.php
-
-// Prevent direct access — allow only via include
+// Prevent direct access
 if (basename($_SERVER['PHP_SELF']) === basename(__FILE__)) {
     header('Location: ../index.php');
     exit;
@@ -12,7 +10,7 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-// Securely include DB connection
+// Include DB connection
 require_once '../connection/conn.php';
 
 // Check if user is logged in
@@ -22,7 +20,7 @@ if (empty($_SESSION['user_id'])) {
 }
 
 try {
-    // Fetch member details using session user_id for better security
+    // Fetch member details using session user_id
     $stmt = $pdo->prepare("SELECT * FROM members WHERE id = :id LIMIT 1");
     $stmt->bindParam(':id', $_SESSION['user_id'], PDO::PARAM_INT);
     $stmt->execute();
@@ -33,33 +31,27 @@ try {
         return;
     }
 
-    // Prepare member data (safe with htmlspecialchars)
-    $mid = htmlspecialchars($member['username']); 
-    $firstname = htmlspecialchars($member['firstname']);
-    $lastname = htmlspecialchars($member['lastname']);
-    $middleinitial = !empty($member['middlename']) ? strtoupper(substr($member['middlename'], 0, 1)) . '.' : '';
-    $extension = htmlspecialchars($member['extensionname']);
-    $room = htmlspecialchars($member['room_number']);
-    $seat = htmlspecialchars($member['seat_number']);
-    $email = htmlspecialchars($member['email'] ?? '');
+    // Safe HTML variables
+    $mid           = htmlspecialchars($member['username']);
+    $firstname     = htmlspecialchars($member['firstname']);
+    $lastname      = htmlspecialchars($member['lastname']);
+    $middleinitial = !empty($member['middlename']) ? strtoupper(substr($member['middlename'],0,1)) . '.' : '';
+    $extension     = htmlspecialchars($member['extensionname']);
+    $room          = htmlspecialchars($member['room_number']);
+    $seat          = htmlspecialchars($member['seat_number']);
+    $email         = htmlspecialchars($member['email'] ?? '');
+    $training      = htmlspecialchars($member['training_institution'] ?? '');
+    $prc           = htmlspecialchars($member['prc_number'] ?? '');
 
-    // Prepare dynamic Google Form QR link (URL-encoded)
-    $qr_link = "https://docs.google.com/forms/d/e/1FAIpQLSfH5_sFVdI2ccJBLkzany7IB2zCuJHNzJ1JjyKabvTP8KiLCA/viewform?usp=pp_url" .
-        "&entry.1181033758=" . urlencode($member['username']) .
-        "&entry.1249588435=" . urlencode($member['firstname']) .
-        "&entry.543582119=" . urlencode($member['middlename']) .
-        "&entry.434672025=" . urlencode($member['lastname']) .
-        "&entry.349820305=" . urlencode($member['extensionname']) .
-        "&entry.1111099222=" . urlencode($member['room_number']) .
-        "&entry.1459707090=" . urlencode($member['seat_number']) .
-        "&entry.1505939387=" . urlencode($member['email']);
+    // Short QR link: pass only user_id
+    $qr_link = "redirect_form.php?user_id=" . urlencode($member['id']);
+
 } catch (PDOException $e) {
     error_log("Passport modal error: " . $e->getMessage());
     echo '<!-- Database error -->';
     return;
 }
 ?>
-
 <link rel="stylesheet" href="css/passport.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/qrious@4.0.2/dist/qrious.min.js"></script>
@@ -82,6 +74,8 @@ try {
         <div class="passport-text extension"><?= $extension ?></div>
         <div class="passport-text room"><?= 'Room ' . $room ?></div>
         <div class="passport-text seat"><?= 'Seat ' . $seat ?></div>
+        <div class="passport-text training"><?= $training ?></div>
+        <div class="passport-text prc"><?= 'PRC: ' . $prc ?></div>
 
         <!-- QR Code -->
         <canvas id="qrCode" class="passport-text qr"></canvas>
@@ -89,38 +83,30 @@ try {
 </div>
 
 <script>
+// Elements
 const modal = document.getElementById("passportModal");
 const openBtn = document.getElementById("openPassport");
 const closeBtn = document.querySelector(".modal .close");
 const downloadBtn = document.getElementById("downloadPassport");
 const passportCard = document.getElementById("passportCard");
 
-// Generate QR code using QRious with dynamic member details
-const qr = new QRious({
+// ✅ Generate QR code with fixed size and low error correction
+new QRious({
     element: document.getElementById('qrCode'),
-    value: '<?= $qr_link ?>', // dynamic Google Form link
-    size: 150,
+    value: '<?= $qr_link ?>',
+    size: 130,       // fixed size
+    level: 'L',      // low error correction to keep QR small
     background: 'rgba(0,0,0,0)',
     padding: 0
 });
 
-// Open modal
+// Modal behavior
 openBtn?.addEventListener("click", e => {
     e.preventDefault();
     modal.style.display = "flex";
 });
-
-// Close modal
-closeBtn?.addEventListener("click", () => {
-    modal.style.display = "none";
-});
-
-// Close when clicking outside modal
-window.addEventListener("click", event => {
-    if (event.target === modal) {
-        modal.style.display = "none";
-    }
-});
+closeBtn?.addEventListener("click", () => modal.style.display = "none");
+window.addEventListener("click", e => { if (e.target === modal) modal.style.display = "none"; });
 
 // Download as image
 downloadBtn?.addEventListener("click", () => {

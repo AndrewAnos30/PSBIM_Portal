@@ -14,7 +14,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['login'])) {
     // === Validate inputs ===
     if (empty($username) || empty($password)) {
         $_SESSION['error'] = "Please enter both username and password.";
-        header('Location: contractual/contractual-login.php');
+        header('Location: contractual-login.php');
         exit;
     }
 
@@ -53,7 +53,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['login'])) {
             exit;
         } else {
             $_SESSION['error'] = "Invalid username or password.";
-            header('Location: contractual/contractual-login.php');
+            header('Location: contractual-login.php');
             exit;
         }
 
@@ -62,13 +62,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['login'])) {
         error_log("Contractual login error: " . $e->getMessage());
 
         $_SESSION['error'] = "An unexpected error occurred. Please try again later.";
-        header('Location: contractual/contractual-login.php');
+        header('Location: contractual-login.php');
         exit;
     }
 
 } else {
     // Redirect non-POST access
-    header('Location: contractual/contractual-login.php');
+    header('Location: contractual-login.php');
     exit;
 }
 ?>

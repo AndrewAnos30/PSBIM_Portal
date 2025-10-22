@@ -1,25 +1,26 @@
 <?php
-// ✅ Start session safely
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
 // ✅ Restrict access to logged-in admins only
 if (!isset($_SESSION['admin_id'])) {
-    header("Location: ../../admin-login.php"); // Go two folders up to reach admin-login.php
+    header("Location: ../../admin-login.php");
     exit;
 }
 
-include __DIR__ . '/../../connection/conn.php'; // connection outside admin folder
+include __DIR__ . '/../../connection/conn.php';
 
 try {
-    // ✅ Morning Attendance (show only if attendance record exists)
+    // ✅ Morning Attendance Query (includes training & prc)
     $morningQuery = "
         SELECT 
             m.username,
             CONCAT(m.firstname, ' ', m.middlename, ' ', m.lastname, ' ', m.extensionname) AS fullname,
+            m.training_institution,
             m.room_number,
             m.seat_number,
+            m.prc_number,
             a.attendance,
             a.timestamp
         FROM members m
@@ -30,13 +31,15 @@ try {
     $morningStmt = $pdo->query($morningQuery);
     $morningData = $morningStmt->fetchAll(PDO::FETCH_ASSOC);
 
-    // ✅ Afternoon Attendance (show only if attendance record exists)
+    // ✅ Afternoon Attendance Query (includes training & prc)
     $afternoonQuery = "
         SELECT 
             m.username,
             CONCAT(m.firstname, ' ', m.middlename, ' ', m.lastname, ' ', m.extensionname) AS fullname,
+            m.training_institution,
             m.room_number,
             m.seat_number,
+            m.prc_number,
             a.attendance,
             a.timestamp
         FROM members m
@@ -65,8 +68,10 @@ try {
             <tr>
                 <th>Username</th>
                 <th>Full Name</th>
+                <th>Training Institution</th>
                 <th>Room Number</th>
                 <th>Seat Number</th>
+                <th>PRC Number</th>
                 <th>Attendance</th>
                 <th>Time Stamp</th>
             </tr>
@@ -77,61 +82,65 @@ try {
                     <tr>
                         <td><?= htmlspecialchars($row['username']); ?></td>
                         <td><?= htmlspecialchars($row['fullname']); ?></td>
+                        <td><?= htmlspecialchars($row['training_institution']); ?></td>
                         <td><?= htmlspecialchars($row['room_number']); ?></td>
                         <td><?= htmlspecialchars($row['seat_number']); ?></td>
+                        <td><?= htmlspecialchars($row['prc_number']); ?></td>
                         <td><?= htmlspecialchars($row['attendance'] ?? '—'); ?></td>
                         <td><?= htmlspecialchars($row['timestamp'] ?? '—'); ?></td>
                     </tr>
                 <?php endforeach; ?>
             <?php else: ?>
-                <tr><td colspan="6" style="text-align:center;">No morning attendance records found.</td></tr>
+                <tr><td colspan="8" style="text-align:center;">No morning attendance records found.</td></tr>
             <?php endif; ?>
         </tbody>
     </table>
 </div>
 
 <script>
-function downloadCSV() {
-    // Select the table
-    const table = document.getElementById("morningMembers");
-    const rows = table.querySelectorAll("tbody tr");
+    function downloadCSV() {
+        const table = document.getElementById("morningMembers");
+        const rows = table.querySelectorAll("tbody tr");
 
-    // Prepare CSV header
-    let csv = "Username,Full Name,Room Number,Seat Number\n";
+        // ✅ Updated CSV header (removed Attendance and Timestamp)
+        let csv = "Username,Full Name,Training Institution,Room Number,Seat Number,PRC Number\n";
 
-    // Loop through table rows
-    rows.forEach(row => {
-        const cols = row.querySelectorAll("td");
-        if (cols.length >= 4) {
-            const username = cols[0].innerText.trim();
-            const fullname = cols[1].innerText.trim();
-            const room = cols[2].innerText.trim();
-            const seat = cols[3].innerText.trim();
-            csv += `"${username}","${fullname}","${room}","${seat}"\n`;
-        }
-    });
+        // ✅ Loop through table rows
+        rows.forEach(row => {
+            const cols = row.querySelectorAll("td");
+            if (cols.length >= 8) {
+                const username = cols[0].innerText.trim();
+                const fullname = cols[1].innerText.trim();
+                const training = cols[2].innerText.trim();
+                const room = cols[3].innerText.trim();
+                const seat = cols[4].innerText.trim();
+                const prc = cols[5].innerText.trim();
 
-    // Create a downloadable CSV blob
-    const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement("a");
-    link.setAttribute("href", url);
-    link.setAttribute("download", "morning_attendance.csv");
-    link.style.display = "none";
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-}
+                // ✅ Excluded attendance and timestamp from CSV output
+                csv += `"${username}","${fullname}","${training}","${room}","${seat}","${prc}"\n`;
+            }
+        });
 
-// Optional: Search Filter Function
-function filterTable() {
-    const input = document.getElementById("searchInput");
-    const filter = input.value.toLowerCase();
-    const rows = document.querySelectorAll("#morningMembers tbody tr");
+        // ✅ Create and trigger download
+        const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement("a");
+        link.setAttribute("href", url);
+        link.setAttribute("download", "morning_attendance.csv");
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    }
 
-    rows.forEach(row => {
-        const text = row.innerText.toLowerCase();
-        row.style.display = text.includes(filter) ? "" : "none";
-    });
-}
+    // ✅ Search filter
+    function filterTable() {
+        const input = document.getElementById("searchInput");
+        const filter = input.value.toLowerCase();
+        const rows = document.querySelectorAll("#morningMembers tbody tr");
+
+        rows.forEach(row => {
+            const text = row.innerText.toLowerCase();
+            row.style.display = text.includes(filter) ? "" : "none";
+        });
+    }
 </script>

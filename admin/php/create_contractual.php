@@ -43,7 +43,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt->execute();
 
         // Redirect after successful insert
-        header('Location: ../admin_dashboard.php');
+        header('Location: ../contractual.php');
         exit();
     } catch (PDOException $e) {
         echo "Error: " . $e->getMessage();
